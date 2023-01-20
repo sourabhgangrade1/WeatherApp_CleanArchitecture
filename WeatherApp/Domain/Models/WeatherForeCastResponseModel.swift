@@ -154,17 +154,17 @@ struct WeatherForeCastByDate {
 
     var temperatureMax: String {
         guard let weatherForeCastDetails = weatherForeCastDetails,
-              weatherForeCastDetails.count > 0 else {
+              let maxTemperature = (weatherForeCastDetails.map{$0.temperatureMax}).max() else {
             return ""
         }
-        return weatherForeCastDetails[0].temperatureMax
+        return maxTemperature
     }
 
     var temperatureMin: String {
         guard let weatherForeCastDetails = weatherForeCastDetails,
-              weatherForeCastDetails.count > 0 else {
+              let minTemperature = (weatherForeCastDetails.map{$0.temperatureMax}).min() else {
             return ""
         }
-        return weatherForeCastDetails[0].temperatureMin
+        return minTemperature
     }
 }
