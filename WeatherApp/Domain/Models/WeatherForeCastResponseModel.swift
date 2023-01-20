@@ -141,7 +141,7 @@ struct WeatherForeCastByDate {
               weatherForeCastDetails.count > 0 else {
             return ""
         }
-        return weatherForeCastDetails[0].weatherIcon
+        return weatherForeCastDetails[0].weatherType
     }
 
     var temperature: String {
