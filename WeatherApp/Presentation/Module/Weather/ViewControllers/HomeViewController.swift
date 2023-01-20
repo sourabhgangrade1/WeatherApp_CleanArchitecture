@@ -14,6 +14,7 @@ class HomeViewController: BaseViewController {
     @IBOutlet weak var weatherTypeLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    var expandedIndexPath = IndexPath()
 
     @IBOutlet weak var weatherForeCastTableView: UITableView!
     private var viewModel: WeatherForeCastViewModel!
@@ -27,6 +28,7 @@ class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        expandedIndexPath = IndexPath(row: 0, section: 0)
         guard isNetworkConnectionExist() else {
             self.showNoInternetAlert()
             return
@@ -39,11 +41,17 @@ class HomeViewController: BaseViewController {
             return
         }
         self.showLoader()
-        viewModel.fetchWeatherDetails(completion: { [weak self] in
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.fetchWeatherDetails(completion: { [weak self] isSuccess in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.dataBinding()
-                self.weatherForeCastTableView.reloadData()
+                if isSuccess {
+                    self.dataBinding()
+                    self.weatherForeCastTableView.reloadData()
+                }
                 self.removeLoader()
             }
         })
@@ -65,22 +73,34 @@ class HomeViewController: BaseViewController {
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath == expandedIndexPath {
+            return 150
+        }
         return 50
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let count = self.viewModel.weatherDetailsModel?.WeatherForeCastByDate.count else {
-            return 0
-        }
-        return min(count - 1, 4)
+        return min(self.viewModel.getDayCount(), 5)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherForeCastTableViewCell", for: indexPath) as? WeatherForeCastTableViewCell else {
             return WeatherForeCastTableViewCell()
         }
-        cell.configureWith(viewModel: viewModel, index: (indexPath.row + 1))
+        cell.configureWith(viewModel: viewModel, index: (indexPath.row))
         cell.selectionStyle = .none
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.beginUpdates()
+
+        if indexPath == expandedIndexPath {
+            expandedIndexPath = IndexPath()
+        } else {
+            expandedIndexPath = indexPath
+        }
+
+        tableView.endUpdates()
     }
 }

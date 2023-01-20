@@ -103,8 +103,8 @@ extension Requestable {
         headerParamaters.forEach { allHeaders.updateValue($1, forKey: $0) }
 
         let bodyParamaters = try bodyParamatersEncodable?.toDictionary() ?? self.bodyParamaters
-        print("bodyParamaters = \(bodyParamaters)")
-        print("bodyParamatersEncodable = \(String(describing: bodyParamatersEncodable))")
+//        print("bodyParamaters = \(bodyParamaters)")
+//        print("bodyParamatersEncodable = \(String(describing: bodyParamatersEncodable))")
 
         if !bodyParamaters.isEmpty {
             urlRequest.httpBody = encodeBody(bodyParamaters: bodyParamaters, bodyEncoding: bodyEncoding)

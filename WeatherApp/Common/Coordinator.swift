@@ -11,7 +11,3 @@ protocol Coordinator: AnyObject {
     func start()
 
 }
-
-protocol CoordinatorFinishFlow {
-    var finishFlow: (() -> Void)? { get set }
-}

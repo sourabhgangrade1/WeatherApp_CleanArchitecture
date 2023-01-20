@@ -15,10 +15,6 @@ protocol WeatherLocalRepositoryProtocol {
 
 final class WeatherLocalRepository: WeatherLocalRepositoryProtocol {
 
-//    private var selectedCity: CityDetails = CityDetails(cityName: "Hyderabad",
-//                                                        coord: Coord(cityLatitude: 17.360589, cityLongitude: 78.4740613),
-//                                                        cityCountryCode: "IN",
-//                                                        cityStateName: "Telangana")
     private var selectedCity: CityDetails?
 
     func fetchLocations(completion: @escaping (Result<[CityDetails], DataTransferError>) -> Void) {

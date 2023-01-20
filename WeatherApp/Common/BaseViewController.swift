@@ -19,7 +19,7 @@ class BaseViewController: UIViewController {
 
         removeInternetFailObserver()
         if self.isMovingFromParent {
-            print("Back Button Pressed")
+//            print("Back Button Pressed")
         }
     }
 
@@ -66,11 +66,6 @@ extension BaseViewController {
         if !isReachable {
             self.showNoInternetAlert()
         }
-        self.enableControls(isEnable: isReachable)
-    }
-
-    @objc func enableControls(isEnable: Bool) {
-        print("Network conection status:", isEnable)
     }
 }
 

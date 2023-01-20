@@ -14,7 +14,7 @@ struct WeatherForeCastViewModelActions {
 class WeatherForeCastViewModel {
     private let useCase: WeatherForeCastUseCaseProtocol
     private var actions: WeatherForeCastViewModelActions?
-    var weatherDetailsModel: WeatherForeCastDisplayModel?
+    private var weatherDetailsModel: WeatherForeCastDisplayModel?
 
     init(useCase: WeatherForeCastUseCaseProtocol,
          actions: WeatherForeCastViewModelActions? = nil) {
@@ -22,14 +22,14 @@ class WeatherForeCastViewModel {
         self.actions = actions
     }
     
-    func fetchWeatherDetails(completion: @escaping(() -> Void )) {
+    func fetchWeatherDetails(completion: @escaping((Bool) -> Void )) {
         useCase.fetchWeatherForeCast(completion: { [weak self] result in
             switch result {
             case .success(let responseDTO):
-                print("Function: \(#function), line: \(#line) Successfully updated: \(responseDTO)")
                 self?.weatherDetailsModel = WeatherResponseToDisplayMapper.convertResponseToDisplay(weatherForeCastResponseModel: responseDTO)
-                completion()
+                completion(true)
             case .failure(let error):
+                completion(false)
                 switch error {
                 case .noDataFound:
                     self?.showLocationChangeScreen()
@@ -67,7 +67,7 @@ extension WeatherForeCastViewModel {
               weatherList.count > index else {
             return ""
         }
-        return weatherList[index].weatherTypeIcon
+        return weatherList[index].weatherIcon
     }
 
     func getCurrentTemperature(index: Int) -> String {
@@ -107,6 +107,22 @@ extension WeatherForeCastViewModel {
               weatherList.count > index else {
             return ""
         }
-        return weatherList[index].day
+        return index == 0 ? "Today" : weatherList[index].day
+    }
+
+    func getDayCount() -> Int {
+        guard let count = weatherDetailsModel?.WeatherForeCastByDate.count else {
+            return 0
+        }
+        return count
+    }
+
+    func getWeatherDetailsForFullDay(day: Int) -> [WeatherForeCastDetails] {
+        guard let weatherForeCastByDate = weatherDetailsModel?.WeatherForeCastByDate,
+              weatherForeCastByDate.count > day,
+              let weatherForeCastDetails = weatherForeCastByDate[day].weatherForeCastDetails else {
+            return []
+        }
+        return weatherForeCastDetails
     }
 }

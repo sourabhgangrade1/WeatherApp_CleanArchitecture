@@ -1,14 +1,8 @@
-//
-//  String+Date.swift
-//  WeatherApp
-//
-//  Created by CBRE on 19/01/23.
-//
-
 import Foundation
 
 private let longDateFormat = "EEEE, dd MMM yyyy"
 private let dayFormat = "EEEE"
+private let shortTimeFormat = "ha"
 
 extension DateFormatter {
     static func getLongDateFormatter() -> DateFormatter {
@@ -20,6 +14,12 @@ extension DateFormatter {
     static func getDayFormatter() -> DateFormatter {
         let formatter  = DateFormatter()
         formatter.dateFormat = dayFormat
+        return formatter
+    }
+
+    static func getShortTimeFormatter() -> DateFormatter {
+        let formatter  = DateFormatter()
+        formatter.dateFormat = shortTimeFormat
         return formatter
     }
 }
@@ -35,5 +35,11 @@ extension Date {
         let dateFormate = DateFormatter()
         dateFormate.dateFormat = dayFormat
         return DateFormatter.getDayFormatter().string(from: self)
+    }
+
+    func getShortTime() -> String {
+        let dateFormate = DateFormatter()
+        dateFormate.dateFormat = shortTimeFormat
+        return DateFormatter.getShortTimeFormatter().string(from: self)
     }
 }

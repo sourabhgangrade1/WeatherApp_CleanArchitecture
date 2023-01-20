@@ -6,21 +6,21 @@
 	<string>$(API_BASE_URL)</string>
 	<key>ApiKey</key>
 	<string>$(API_KEY)</string>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSExceptionDomains</key>
-        <dict>
-            <key>NSExceptionDomains</key>
-            <dict>
-                <key>openweathermap.org</key>
-                <dict>
-                    <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                    <true/>
-                    <key>NSIncludesSubdomains</key>
-                    <true/>
-                </dict>
-            </dict>
-        </dict>
-    </dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>NSExceptionDomains</key>
+			<dict>
+				<key>openweathermap.org</key>
+				<dict>
+					<key>NSExceptionAllowsInsecureHTTPLoads</key>
+					<true/>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

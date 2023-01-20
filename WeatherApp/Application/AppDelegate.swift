@@ -49,7 +49,6 @@ extension AppDelegate {
         
         monitor.pathUpdateHandler = { _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                print("Network status -", isNetworkConnectionExist())
                 NotificationCenter.default.post(name: .internetFail, object: nil, userInfo: ["isReachable": isNetworkConnectionExist()])
             }
         }
